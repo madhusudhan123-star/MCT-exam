@@ -1,54 +1,24 @@
-import React from 'react'
-import {AiOutlineMins, AiOutlinePlus, AiOutlineLeft, AiOutLineShopping} from 'react-icons/ai';
-import {TiDeleteOutLine} from 'react-icons/ti';
-// import toast from 'react-hot-toast';
-// import { useStateContext } from '../context/StateContext';
-import { AiOutlineShopping } from 'react-icons/ai';
-import { TiDeleteOutline } from 'react-icons/ti';
-import { AiOutlineMinus } from 'react-icons/ai';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-
-const Card = () => {
+const Card = ({ image, title, description, price, link }) => {
   return (
-    <div className='cart-wrapper'>
-      <div className='cart-container'>
-        <button type='button' className='cart-heading' onClick="">
-          <AiOutlineLeft />
-          <span className='heading'>Your Cart</span>
-          <span className='cart-num-items'>items</span>
-        </button>
-        <div className='product-container'>
-          {/* {cartItems.length >= 1 && cartItems.map((item) => ( */}
-            <div className='product'>
-              <img src="" className='cart-product-image' />
-              <div className='item-desc'>
-                <div className='flex top'>
-                  <h5>item</h5>
-                  <h4>$item</h4>
-                </div>
-                <div className='flex bottom'>
-                  <div>
-                    <p className='quantity-desc'>
-                      <span className='minus' onClick="">
-                        <AiOutlineMinus />
-                      </span>
-                      <span className='num'>item</span>
-                      <span className='plus' onClick="">
-                        <AiOutlinePlus />
-                      </span>
-                    </p>
-                  </div>
-                  <button type='button' className='remove-item' onClick="">
-                    <TiDeleteOutline />
-                  </button>
-                </div>
-              </div>
-            </div>
-          {/* )} */}
-        </div>    
+    <div className="card shadow-md rounded-lg overflow-hidden">
+      <img src={image} alt={title} className="w-full h-48 object-cover" />
+      <div className="p-4">
+        <h3 className="text-lg font-bold mb-2">{title}</h3>
+        <p className="text-gray-700 mb-4">{description}</p>
+        <div className="flex justify-between items-center">
+          {price && <p className="text-xl font-bold">{price}</p>}
+          {link && (
+            <Link to={link} className="text-blue-500 hover:underline">
+              View Details
+            </Link>
+          )}
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Card;

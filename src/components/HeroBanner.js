@@ -1,5 +1,5 @@
 import React from 'react'
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const HeroBanner = () => {
   return (
@@ -10,7 +10,7 @@ const HeroBanner = () => {
         <img src='https://fakestoreapi.com/img/61pHAEJ4NML._AC_UX679_.jpg' alt='headphones' className='hero-banner-image' />
         <div>
           <div to="/product/ID">
-            <button type='button'>Button Text</button>
+            <button type='button'> <Link to ='/20'>Button Text </Link></button>
           </div>
           <div className='desc'>
           <h5>95%Cotton,5%Spandex</h5>

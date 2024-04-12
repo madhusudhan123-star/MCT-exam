@@ -1,7 +1,7 @@
 import React from 'react';
 import { AiOutlineStar, AiOutlinePlus, AiFillStar } from 'react-icons/ai';
 import { AiOutlineMinus } from 'react-icons/ai';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext  } from "react";
 import { fetchFromAPI } from "../pages/fetchFromApi";
 import Loader from "../pages/Loader";
 import { useParams, Link } from "react-router-dom";
@@ -11,6 +11,9 @@ const ProductDetails = () => {
   const [useid, setUseid] = useState(id);
   const [data, setData] = useState(null);
   const [datas, setDatas] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+
+
 
   const value = (id) => {
     fetchFromAPI(`products/${id}`).then((data) => {
@@ -23,7 +26,7 @@ const ProductDetails = () => {
     fetchFromAPI(`products?limit=6`).then((datas) => {
       setDatas(datas);
     });
-  }, []);
+  }, [id]);
 
   if (data === null) {
     return <Loader />;
@@ -31,9 +34,14 @@ const ProductDetails = () => {
 
   const rate = data.rating; // Assuming 'rating' exists in your API response
   const rating_value = data.rating.rate;
-
+  const handleQuantityChange = (event) => {
+    const newQuantity = Math.max(1, parseInt(event.target.value, 10)); 
+  
+    // Update state with the new quantity, ensuring it's not less than 1
+    setQuantity(newQuantity);
+  };
   return (
-    <div className="product-details container mx-auto px-4 py-16">
+    <div className="product-details mt-24 mb-8 container mx-auto px-4 py-16">
       <div className="flex-warp  md:flex justify-between gap-4">
         <div className="w-full md:w-1/2">
           <img
@@ -58,28 +66,28 @@ const ProductDetails = () => {
           </div>
           <p className="text-gray-700 mb-4">{data.description}</p>
           <p className="text-xl font-bold mb-4">${data.price}</p>
-          {/* Rest of the code remains the same */}
-          <div className="quantity flex items-center">
+          <div className="quantity flex items-center select-none">
             <h3>Quantity:</h3>
             <p className="quantity-desc flex">
-              <span className="minus">
-                <AiOutlineMinus />
+              <span className="minus border-r-2 border-black">
+                <AiOutlineMinus onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)} />
               </span>
-              <span className="num">0</span>
-              <span className="plus">
-                <AiOutlinePlus />
+              <span className="">
+                <input
+                  type="number"
+                  value={quantity}
+                  onChange={handleQuantityChange}
+                  min={1} // Set minimum quantity to 1
+                  disabled={quantity === 1} // Disable input when quantity is 1
+                  className="w-10 overflow-hidden"
+                />
+              </span>
+              <span className="plus border-l-2 border-black">
+                <AiOutlinePlus onClick={() => setQuantity(quantity + 1)} />
               </span>
             </p>
           </div>
-          <div className="buttons flex justify-between mt-4">
-            <button type="button" className="add-to-cart bg-f02d34 text-white px-4 py-2 rounded-md">
-              Add to Cart
-            </button>
-            <button type="button" className="buy-now bg-white border border-f02d34 text-f02d34 px-4 py-2 rounded-md">
-              Buy Now
-            </button>
           </div>
-        </div>
       </div>
     </div>
   );
